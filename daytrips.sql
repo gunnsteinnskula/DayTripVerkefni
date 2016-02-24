@@ -70,3 +70,5 @@ insert into trips values(1,1,50,0,0205);
 insert into dates values(1,1);
 
 select * from travelAgencies;
+select * from dayTrips;
+select * from trips;
