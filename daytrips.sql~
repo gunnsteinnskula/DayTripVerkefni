@@ -65,7 +65,6 @@ create table if not exists bookings(
 
 insert into travelAgencies values(1,3,"Reykjavik Excursions");
 insert into dayTrips values(1,"Golden Circle", 10500, 1, "Sightseeing", "Sudur", 4, 0101, 3112, 1, null, "bus fare included");
-insert into dayTrips values(2,"Geysir", 10500, 1, "Wetting", "Sudur", 4, 0101, 3112, 1, null, "bus fare not included");
 insert into trips values(1,1,50,0,0205);
 insert into dates values(1,1);
 
