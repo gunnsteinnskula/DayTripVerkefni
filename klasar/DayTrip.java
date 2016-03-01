@@ -63,7 +63,7 @@ public class DayTrip {
 		return size;
 	}
 	
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 	
