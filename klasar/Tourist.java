@@ -7,8 +7,11 @@ public class Tourist {
 	private int[] bookingNumbers;
 	private int age;
 	
-	public Tourist(){
-		//???
+	public Tourist(String name, String email, String country, int age){
+		this.name = name;
+		this.email = email;
+		this.country = country;
+		this.age = age;
 	}
 	
 	public String getName(){
