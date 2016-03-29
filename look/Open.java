@@ -5,6 +5,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import klasar.DatabaseHelper;
+import klasar.SearchConnection;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JButton;
