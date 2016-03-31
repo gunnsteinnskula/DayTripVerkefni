@@ -9,8 +9,9 @@ public class DatabaseConnection {
 	private String getTripIDQuery;
 	private String findTouristQuery;
 	private String getTouristQuery;
-	private String TABLENAME;
-	private Statement statement;
+	private String addBookingQuery;
+	private String searchTripQuery;
+	private String searchFestivalQuery;
 	private PreparedStatement pstatement;
 	private Connection conn;
 	private ResultSet rs; 
@@ -29,7 +30,19 @@ public class DatabaseConnection {
 	}
 	
 	public boolean book(int tripID, String touristEmail, int bookingnumber, int groupSize) {
-		return false;
+		try {
+			addBookingQuery = "INSERT INTO bookings values(?,?,?)";
+			pstatement = conn.prepareStatement(addBookingQuery);
+			pstatement.setString(1, touristEmail);
+			pstatement.setInt(2, tripID);
+			pstatement.setInt(3, bookingnumber);
+			pstatement.executeUpdate();
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 	public boolean findTourist(String email) {
@@ -115,10 +128,26 @@ public class DatabaseConnection {
 	}
 	
 	public List<DayTrip> search(Date date1, Date date2, String name, String type, int size, int price, int length, String location) {
+		try {
+			
+		} catch(Exception e) {
+			
+		}
 		return null;
 	}
 	
 	public List<Festival> searchFestival(Date date1, Date date2) {
+
+		try {
+			searchFestivalQuery = "SELECT * FROM festivals WHERE startDate="+date1+" AND endDate="+date2;
+			pstatement = conn.prepareStatement(searchFestivalQuery);
+			rs = pstatement.executeQuery();
+			//Eftir að klára hér
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
 		return null;
 	}
 	
