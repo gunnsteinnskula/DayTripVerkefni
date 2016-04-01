@@ -20,7 +20,7 @@ public class Booking extends JFrame {
 	private JTextField txtCountry;
 	private JTextField txtAge;
 	private JTextField txtGroupSize;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -109,7 +109,7 @@ public class Booking extends JFrame {
 		return Integer.parseInt(txtGroupSize.getText().toString());
 	}
 	
-	public void show() {
-		this.setVisible(true);
-	}
+	//public void show() {
+		//this.setVisible(true);
+	//}
 }
