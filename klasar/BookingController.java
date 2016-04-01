@@ -2,16 +2,18 @@ package klasar;
 
 import java.util.Date;
 
+import look.Booking;
+
 public class BookingController {
 	private int bookingNumber;
 	private DatabaseConnection connection;
-	private BookingView bookingView;
+	private Booking bookingView;
 	private int groupSize;
 	
 	public BookingController() {
 		bookingNumber = 0;
 		connection = new DatabaseConnection();
-		bookingView = new BookingView();
+		bookingView = new Booking();
 	}
 	
 	public int book(Trip trip) {
@@ -24,12 +26,12 @@ public class BookingController {
 	}
 	
 	public Tourist getTourist() {
-		bookingView.show();
-		String touristEmail = bookingView.getEmail();
-		String touristName = bookingView.getName();
-		String touristCountry = bookingView.getCountry();
-		int touristAge = bookingView.getAge();
-		groupSize = bookingView.getGroupSize();
+		bookingView.setVisible(true);
+		String touristEmail = bookingView.getInputEmail();
+		String touristName = bookingView.getInputName();
+		String touristCountry = bookingView.getInputCountry();
+		int touristAge = bookingView.getInputAge();
+		groupSize = bookingView.getInputGroupSize();
 		Tourist tourist = new Tourist(touristName, touristEmail, touristCountry, touristAge);
 		if(connection.findTourist(touristEmail)) return connection.getTourist(touristEmail);
 		else {
@@ -37,6 +39,11 @@ public class BookingController {
 				System.out.println("Tourist not added");
 			return tourist;			
 		}
+	}
+	
+	public static void main(String[] args) {
+		BookingController booking = new BookingController();
+		booking.getTourist();
 	}
 	
 }

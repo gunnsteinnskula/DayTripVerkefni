@@ -1,3 +1,5 @@
+package look;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -85,5 +87,29 @@ public class Booking extends JFrame {
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 14));
 		lblNewLabel.setBounds(6, 16, 422, 16);
 		contentPane.add(lblNewLabel);
+	}
+	
+	public String getInputEmail() {
+		return txtEmailAddress.getText().toString();
+	}
+	
+	public String getInputName() {
+		return txtName.getText().toString();
+	}
+	
+	public String getInputCountry() {
+		return txtCountry.getText().toString();
+	}
+	
+	public int getInputAge() {
+		return Integer.parseInt(txtAge.getText().toString());
+	}
+	
+	public int getInputGroupSize() {
+		return Integer.parseInt(txtGroupSize.getText().toString());
+	}
+	
+	public void show() {
+		this.setVisible(true);
 	}
 }
