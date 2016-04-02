@@ -9,6 +9,7 @@ drop table if exists tourists;
 drop table if exists trips;
 drop table if exists dayTrips;
 drop table if exists travelAgencies;
+drop table if exists festivals;
 
 create table if not exists travelAgencies(
 	id int primary key,
@@ -62,12 +63,22 @@ create table if not exists bookings(
 	bookingnumber int primary key
 );
 
+create table if not exists festivals(
+	length int,
+	name varchar(40),
+	type varchar(40),
+	startDate int,
+	endDate int,
+	location varchar(40),
+	price int
+);
 
 insert into travelAgencies values(1,3,"Reykjavik Excursions");
 insert into dayTrips values(1,"Golden Circle", 10500, 1, "Sightseeing", "Sudur", 4, 0101, 3112, 1, null, "bus fare included");
 insert into dayTrips values(2,"Geysir", 10500, 1, "Wetting", "Sudur", 4, 0101, 3112, 1, null, "bus fare not included");
 insert into trips values(1,1,50,0,0205);
 insert into dates values(1,1);
+insert into festivals values(3, "Thjodhatid", "Outside concert", 2807, 0108, "Vestmannaeyjar", 19500);
 
 select * from travelAgencies;
 select * from dayTrips;

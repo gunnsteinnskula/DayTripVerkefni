@@ -8,7 +8,7 @@ public class DayTrip {
 	private int length;
 	private String name;
 	private String type;
-	private TravelAgency agency;
+	private String agency;
 	private int price;
 	private String location;
 	private int size;
@@ -18,7 +18,7 @@ public class DayTrip {
 	private Date[] dates;
 	private int rateCounter;
 	
-	public DayTrip(String name, int length, String type, TravelAgency agency,
+	public DayTrip(String name, int length, String type, String agency,
 			int price, String location, int size, String extraInfo, 
 			Date startDate, Date endDate) {
 		this.name = name;
@@ -75,7 +75,7 @@ public class DayTrip {
 		return extraInfo;
 	}
 	
-	public TravelAgency getTravelAgency() {
+	public String getTravelAgency() {
 		return agency;
 	}
 	

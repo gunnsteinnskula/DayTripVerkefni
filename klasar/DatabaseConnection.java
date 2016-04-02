@@ -1,6 +1,8 @@
 package klasar;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class DatabaseConnection {
@@ -15,6 +17,7 @@ public class DatabaseConnection {
 	private PreparedStatement pstatement;
 	private Connection conn;
 	private ResultSet rs; 
+	private ResultSet tresult;
 	private String currentDir;
 	
 	public DatabaseConnection() {
@@ -75,7 +78,6 @@ public class DatabaseConnection {
 			pstatement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
@@ -128,29 +130,67 @@ public class DatabaseConnection {
 	}
 	
 	public List<DayTrip> search(Date date1, Date date2, String name, String type, int size, int price, int length, String location) {
-		try {
-			
-		} catch(Exception e) {
-			
+		searchTripQuery = "SELECT * FROM dayTrips";
+		if(date1 != null || date2 != null || name != null || type != null || size != 0 || price != 0 || length != 0 || location != null) {
+				searchTripQuery += "WHERE";
+				if(date1 != null) searchTripQuery += "startDate =" + new java.sql.Date(date1.getTime()) + "AND";
+				if(date2 != null) searchTripQuery += "endDate =" + new java.sql.Date(date2.getTime()) + "AND";
+				if(name != null) searchTripQuery += "name = '" + name + "' AND";
+				if(type != null) searchTripQuery += "type = '" + type + "' AND";
+				if(size != 0) searchTripQuery += "size = " + size + "AND";
+				if(price != 0) searchTripQuery += "price = " + price + "AND";
+				if(length != 0) searchTripQuery += "length = " + length + "AND";
+				if(location != null) searchTripQuery += "location = '" + location + "' AND";
+				searchTripQuery = searchTripQuery.substring(0, searchTripQuery.lastIndexOf(" "));
 		}
-		return null;
+		List<DayTrip> daytrips = new ArrayList<DayTrip>();
+		try {
+			pstatement = conn.prepareStatement(searchTripQuery);
+			rs = pstatement.executeQuery();
+			while(rs.next()) {
+				name = rs.getString("name");
+				price = rs.getInt("price");
+				length = rs.getInt("length");
+				type = rs.getString("type");
+				location = rs.getString("location");
+				Date startDate = rs.getDate("startDate");
+				Date endDate = rs.getDate("endDate");
+				size = rs.getInt("size");
+				String extraInfo = rs.getString("extraInfo");
+				int tID = rs.getInt("travelAgency");
+				pstatement = conn.prepareStatement("SELECT name FROM travelAgencies WHERE id =" + tID);
+				tresult = pstatement.executeQuery();
+				String travelAgency = tresult.getString("id");
+				daytrips.add(new DayTrip(name, length, type, travelAgency, price, location, size, extraInfo, startDate, endDate));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return daytrips;
 	}
 	
 	public List<Festival> searchFestival(Date date1, Date date2) {
-
+		List<Festival> festivals = new ArrayList<Festival>();
 		try {
 			searchFestivalQuery = "SELECT * FROM festivals WHERE startDate="+date1+" AND endDate="+date2;
 			pstatement = conn.prepareStatement(searchFestivalQuery);
 			rs = pstatement.executeQuery();
-			//Eftir að klára hér
+			while(rs.next()) {
+				int length = rs.getInt("length");
+				String name = rs.getString("name");
+				String type = rs.getString("type");
+				Date startDate = rs.getDate("startDate");
+				Date endDate = rs.getDate("endDate");
+				String location = rs.getString("location");
+				int price = rs.getInt("price");
+				festivals.add(new Festival(length, name, type, startDate, endDate, location, price));
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
 		
-		return null;
+		return festivals;
 	}
-	
-
-	
+		
 }
