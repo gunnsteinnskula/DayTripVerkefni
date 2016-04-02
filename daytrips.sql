@@ -25,8 +25,8 @@ create table if not exists dayTrips(
 	type varchar(10),
 	location varchar(20),
 	rating int,
-	startDate int,
-	endDate int,
+	startDate Date,
+	endDate Date,
 	travelAgency int references travelAgencies(id),
 	size int,
 	extraInfo varchar(255)
@@ -37,7 +37,7 @@ create table if not exists trips(
 	dayTrip int references dayTrips(id),
 	maxsize int,
 	bookings int,
-	godate int
+	godate Date
 );
 
 create table if not exists tourists(
@@ -67,19 +67,17 @@ create table if not exists festivals(
 	length int,
 	name varchar(40),
 	type varchar(40),
-	startDate int,
-	endDate int,
+	startDate Date,
+	endDate Date,
 	location varchar(40),
 	price int
 );
 
 insert into travelAgencies values(1,3,"Reykjavik Excursions");
-insert into dayTrips values(1,"Golden Circle", 10500, 1, "Sightseeing", "Sudur", 4, 0101, 3112, 1, null, "bus fare included");
-insert into dayTrips values(2,"Geysir", 10500, 1, "Wetting", "Sudur", 4, 0101, 3112, 1, null, "bus fare not included");
-insert into trips values(1,1,50,0,0205);
+insert into dayTrips values(1,"Golden Circle", 10500, 1, "Sightseeing", "Sudur", 4, '2016-01-01', '2016-31-12', 1, null, "bus fare included");
+insert into dayTrips values(2,"Geysir", 10500, 1, "Wetting", "Sudur", 4, '2016-01-01', '2016-31-12', 1, null, "bus fare not included");
+insert into trips values(1,1,50,0,'2016-02-06');
 insert into dates values(1,1);
-insert into festivals values(3, "Thjodhatid", "Outside concert", 2807, 0108, "Vestmannaeyjar", 19500);
+insert into festivals values(3, "Thjodhatid", "Outside concert", '2016-07-28', '2016-08-01', "Vestmannaeyjar", 19500);
 
-select * from travelAgencies;
-select * from dayTrips;
-select * from trips;
+SELECT * FROM festivals WHERE startDate<='2016-08-28';
