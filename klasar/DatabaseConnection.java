@@ -75,7 +75,7 @@ public class DatabaseConnection {
 	
 	public boolean addTourist(String name, String email, String country, int age) {
 		try {
-			addTouristQuery = "INSERT INTO Tourist values(?,?,?,?)";
+			addTouristQuery = "INSERT INTO tourists values(?,?,?,?)";
 			pstatement = conn.prepareStatement(addTouristQuery);
 			pstatement.setString(1, email);
 			pstatement.setString(2, name);
@@ -89,10 +89,10 @@ public class DatabaseConnection {
 		}
 	}
 	
-	public int getTripID(DayTrip daytrip, Date tripDates) {
+	public int getTripID(String daytrip, Date tripDates) {
 		int id = 0;
 		try {
-			getTripIDQuery = "SELECT id FROM dayTrips WHERE name='"+daytrip.getName()+"' AND startDate="+tripDates;
+			getTripIDQuery = "SELECT id FROM dayTrips WHERE name='"+daytrip+"' AND startDate='"+new java.sql.Date(tripDates.getTime())+"'";
 			pstatement = conn.prepareStatement(getTripIDQuery);
 			rs = pstatement.executeQuery();
 			while(rs.next()){

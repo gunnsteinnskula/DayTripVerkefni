@@ -3,7 +3,7 @@ package klasar;
 import java.util.Date;
 
 public class Trip {
-	private DayTrip dayTrip;
+	private String dayTrip;
 	private Date[] dates;
 	private int MAX_SIZE;
 	private int booked;
@@ -12,7 +12,7 @@ public class Trip {
 	private List<Integer> groupSize;
 	*/
 	
-	public Trip(DayTrip dayTrip, Date startDate, Date endDate, int maxSize, int booked){
+	public Trip(String dayTrip, Date startDate, Date endDate, int maxSize, int booked){
 		this.dayTrip = dayTrip;
 		this.MAX_SIZE = maxSize;
 		this.booked = booked;
@@ -22,7 +22,7 @@ public class Trip {
 		
 	}
 	
-	public DayTrip getDayTrip(){
+	public String getDayTrip(){
 		return dayTrip;
 	}
 	
