@@ -2,18 +2,19 @@ package klasar;
 
 import java.util.Date;
 
+import look.Booking;
 import look.BookingView;
 
 public class BookingController {
 	private int bookingNumber;
 	private DatabaseConnection connection;
-	private BookingView bookingView;
+	private Booking bookingView;
 	private int groupSize;
 	
-	public BookingController(BookingView mockobject) {
+	public BookingController() {
 		bookingNumber = 0;
 		connection = new DatabaseConnection();
-		bookingView = mockobject;
+		bookingView = new Booking();
 	}
 	
 	public int book(Trip trip) {
@@ -49,5 +50,8 @@ public class BookingController {
 		}
 	}
 	
-	
+	public static void main(String[] args) {
+		BookingController b = new BookingController();
+		b.getTourist();
+	}
 }

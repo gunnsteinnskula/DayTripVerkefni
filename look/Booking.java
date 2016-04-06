@@ -109,7 +109,7 @@ public class Booking extends JFrame {
 		return Integer.parseInt(txtGroupSize.getText().toString());
 	}
 	
-	//public void show() {
-		//this.setVisible(true);
-	//}
+	public void show() {
+		this.setVisible(true);
+	}
 }

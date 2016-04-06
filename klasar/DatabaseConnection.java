@@ -17,6 +17,7 @@ public class DatabaseConnection {
 	private String addBookingQuery;
 	private String searchTripQuery;
 	private String searchFestivalQuery;
+	private String getTripsQuery;
 	private PreparedStatement pstatement;
 	private Connection conn;
 	private ResultSet rs; 
@@ -107,6 +108,31 @@ public class DatabaseConnection {
 			System.exit(0);
 		}
 		return id;
+	}
+	
+	public List<Trip> getTrips(DayTrip daytrip) {
+		int id = 0;
+		List<Trip> trips = new ArrayList<Trip>();
+		getTripsQuery = "SELECT * from trips where dayTrip = " + id;
+		try {
+			pstatement = conn.prepareStatement("SELECT id FROM dayTrips WHERE name = '" + daytrip.getName() + "'");
+			rs = pstatement.executeQuery();
+			while(rs.next()) {
+				id = rs.getInt("id");
+			}
+			pstatement = conn.prepareStatement(getTripsQuery);
+			rs = pstatement.executeQuery();
+			while(rs.next()) {
+				Date startDate = formatter.parse(rs.getString("startdate"));
+				Date endDate = formatter.parse(rs.getString("enddate"));
+				int maxSize = rs.getInt("maxsize");
+				int booked = rs.getInt("bookings");
+				trips.add(new Trip(daytrip.getName(), startDate, endDate, maxSize, booked));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return trips;
 	}
 	
 	public Tourist getTourist(String email) {
