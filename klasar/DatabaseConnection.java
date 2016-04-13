@@ -32,9 +32,9 @@ public class DatabaseConnection {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:"+currentDir+"\\src\\daytrips.db");
-			System.out.println("Tenging er komin á");
+			System.out.println("Tenging er komin ï¿½");
 		} catch (Exception e) {
-			System.out.println("Ekki náðist tenging við gagnagrunninn");
+			System.out.println("Ekki nï¿½ï¿½ist tenging viï¿½ gagnagrunninn");
 			System.exit(0);
 		}	
 	}
@@ -68,7 +68,7 @@ public class DatabaseConnection {
 			pstatement.close();
 		} catch(Exception e){
 			e.printStackTrace();
-			System.out.println("Fann ekki túristann");
+			System.out.println("Fann ekki tï¿½ristann");
 			found = false;
 		}
 		return found;
@@ -104,12 +104,12 @@ public class DatabaseConnection {
 			pstatement.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
-			System.out.println("Virkaði ekki");
+			System.out.println("Virkaï¿½i ekki");
 			System.exit(0);
 		}
 		return id;
 	}
-	
+
 	public List<Trip> getTrips(DayTrip daytrip) {
 		int id = 0;
 		List<Trip> trips = new ArrayList<Trip>();
@@ -129,12 +129,14 @@ public class DatabaseConnection {
 				int booked = rs.getInt("bookings");
 				trips.add(new Trip(daytrip.getName(), startDate, endDate, maxSize, booked));
 			}
+			pstatement.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return trips;
 	}
-	
+
 	public Tourist getTourist(String email) {
 		String name = null;
 		String email1 = null;
@@ -156,11 +158,11 @@ public class DatabaseConnection {
 			return tourist;
 		} catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("Gat ekki náð í túristann");
+			System.out.println("Gat ekki nï¿½ï¿½ ï¿½ tï¿½ristann");
 			return null;
 		}
 	}
-	
+
 	public List<DayTrip> search(Date date1, Date date2, String name, String type, int size, int price, int length, String location) {
 		searchTripQuery = "SELECT * FROM dayTrips";
 		if(date1 != null || date2 != null || name != null || type != null || size != 0 || price != 0 || length != 0 || location != null) {
@@ -204,7 +206,7 @@ public class DatabaseConnection {
 		}
 		return daytrips;
 	}
-	
+
 	public List<Festival> searchFestival(Date date1, Date date2) {
 		List<Festival> festivals = new ArrayList<Festival>();
 		try {
@@ -228,10 +230,10 @@ public class DatabaseConnection {
 			e.printStackTrace();
 			System.exit(0);
 		}
-		
+
 		return festivals;
 	}
-		
+
 	public static void main(String[] args) {
 		DatabaseConnection connect = new DatabaseConnection();
 		Calendar cal = Calendar.getInstance();
