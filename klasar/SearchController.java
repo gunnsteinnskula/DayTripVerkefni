@@ -29,6 +29,9 @@ public class SearchController {
     	this.date2 = date2;
         List<DayTrip> daytrips = connection.search(date1, date2, name, type, size, price,
                 length, location);
+
+        List<Festival> festivals = connection.searchFestival(date1, date2);
+
         if(daytrips.size() == 0){
             System.out.println("Því miður fundust engar ferðir.");
         }
@@ -41,11 +44,11 @@ public class SearchController {
         else{
             System.out.println("Ferðirnar sem fundust voru: ");
             manyDayTrips(daytrips);
+            allFestivals(festivals);
         }
         
         return daytrips;
     }
-
 
     public void oneDayTrip(DayTrip daytrip){
 
@@ -60,7 +63,6 @@ public class SearchController {
         int getSize = daytrip.getSize();
 
         List<Trip> trips = connection.getTrips(daytrip);
-        List<Festival> festivals = connection.searchFestival(date1, date2);
 
         System.out.println(startDate);
         System.out.println(endDate);
@@ -72,14 +74,41 @@ public class SearchController {
                 getLocation + "\n Ferðin kostar " + getPrice + "." + "og tekur " + getSize + "manns \n";
 
 
-        for (int n = 0; n < trips.size(); n++) {
-            Date[] dates = trips.get(n).getDate();
+        for (Trip trip : trips) {
+            Date[] dates = trip.getDate();
             Date startTripDate = dates[0];
             Date endTripDate = dates[1];
 
             print += "\n" + getName + "Frá " + startTripDate + "til " + endTripDate;
         }
 
+
+        System.out.println(print);
+    }
+
+
+    public void manyDayTrips(List<DayTrip> daytrips) {
+
+
+        //searchView.setVisible(true);
+        for (DayTrip daytrip : daytrips) {
+            String getName = daytrip.getName();
+            int getPrice = daytrip.getPrice();
+            int getLength = daytrip.getLength();
+            String getType = daytrip.getType();
+            String getLocation = daytrip.getLocation();
+            Date startDate = daytrip.getStartDate();
+            Date endDate = daytrip.getEndDate();
+            int getSize = daytrip.getSize();
+
+            print += getName + " " + " frá " + startDate + " til " + endDate + " og kostar " + getPrice + "." + "\n";
+        }
+
+
+        System.out.println(print);
+    }
+
+    public void allFestivals(List<Festival> festivals){
         if(festivals.size() > 0) {
             print += "\n Hátíðir á þessum tíma:";
 
@@ -94,31 +123,10 @@ public class SearchController {
                         ".\n Staðsetning: " + festivalLocation + " \n Tegund hátíðar: " + festivalType;
             }
         }
-        //Commit
 
         else{ print += "\n Því miður eru engar hátíðir á þessum tíma.";}
-
-        System.out.println(print);
     }
 
-
-    public void manyDayTrips(List<DayTrip> daytrips) {
-        //searchView.setVisible(true);
-        for (DayTrip daytrip : daytrips) {
-            String getName = daytrip.getName();
-            int getPrice = daytrip.getPrice();
-            int getLength = daytrip.getLength();
-            String getType = daytrip.getType();
-            String getLocation = daytrip.getLocation();
-            Date startDate = daytrip.getStartDate();
-            Date endDate = daytrip.getEndDate();
-            int getSize = daytrip.getSize();
-
-            print += getName + " " + " frá " + startDate + " til " + endDate + " og kostar " + getPrice + "." + "\n";
-        }
-        System.out.println(print);
-    }
-    
     public static void main(String[] args) {
     	SearchController s = new SearchController();
     	
