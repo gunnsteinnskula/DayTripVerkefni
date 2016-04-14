@@ -75,10 +75,14 @@ create table if not exists festivals(
 );
 
 insert into travelAgencies values(1,3,"Reykjavik Excursions");
-insert into dayTrips values(1,"Golden Circle", 10500, 1, "Sightseeing", "Sudur", 4, '2016-01-01', '2016-31-12', 1, null, "bus fare included");
-insert into dayTrips values(2,"Geysir", 10500, 1, "Wetting", "Sudur", 4, '2016-01-01', '2016-31-12', 1, null, "bus fare not included");
+insert into dayTrips values(1,"Golden Circle", 10500, 1, "Sightseeing", "Sudur", 4, '2016-01-01', '2016-12-31', 1, null, "bus fare included");
+insert into dayTrips values(2,"Geysir", 10500, 1, "Wetting", "Sudur", 4, '2016-01-01', '2016-12-31', 1, null, "bus fare not included");
 insert into trips values(1,1,50,0,'2016-02-06', '2016-03-06');
 insert into dates values(1,1);
 insert into festivals values(3, "Thjodhatid", "Outside concert", '2016-07-28', '2016-08-01', "Vestmannaeyjar", 19500);
+insert into festivals values(7, "Besta innihatidin", "Heimaparty", '2016-07-28', '2016-08-01', "Aratun 40", 1);
+insert into festivals values(5, "Iceland Airwaves", "Music festival", '2016-11-02', '2016-11-06', 'Reykjavik', 19900);
 
-SELECT * FROM festivals WHERE startDate<='2016-08-28';
+SELECT * FROM festivals;
+SELECT * FROM dayTrips WHERE startDate <= '2016-07-01' AND endDate >= '2016-12-01' AND name = 'Golden Circle';
+SELECT * FROM festivals WHERE startDate >='2016-01-01' AND endDate <='2016-01-31';

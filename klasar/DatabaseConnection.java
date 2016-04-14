@@ -27,7 +27,7 @@ public class DatabaseConnection {
 	
 	public DatabaseConnection() {
 		currentDir = System.getProperty("user.dir");
-		formatter = new SimpleDateFormat("yyyy-mm-dd");
+		formatter = new SimpleDateFormat("YYYY-MM-DD");
 	
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -171,9 +171,9 @@ public class DatabaseConnection {
 				if(date2 != null) searchTripQuery += " endDate >= '" + new java.sql.Date(date2.getTime()) + "' AND";
 				if(name != null) searchTripQuery += " name = '" + name + "' AND";
 				if(type != null) searchTripQuery += " type = '" + type + "' AND";
-				if(size != 0) searchTripQuery += " size = " + size + " AND";
+				if(size != 0) searchTripQuery += " size <= " + size + " AND";
 				if(price != 0) searchTripQuery += " price <= " + price + " AND";
-				if(length != 0) searchTripQuery += " length = " + length + " AND";
+				if(length != 0) searchTripQuery += " length <= " + length + " AND";
 				if(location != null) searchTripQuery += " location = '" + location + "' AND";
 				searchTripQuery = searchTripQuery.substring(0, searchTripQuery.lastIndexOf(" ")) + ";";
 				System.out.println(searchTripQuery);
@@ -210,7 +210,8 @@ public class DatabaseConnection {
 	public List<Festival> searchFestival(Date date1, Date date2) {
 		List<Festival> festivals = new ArrayList<Festival>();
 		try {
-			searchFestivalQuery = "SELECT * FROM festivals WHERE startDate <='"+ new java.sql.Date(date1.getTime()) +"' AND endDate >='"+ new java.sql.Date(date2.getTime())+"';";
+			searchFestivalQuery = "SELECT * FROM festivals WHERE startDate >='"+ new java.sql.Date(date1.getTime()) +"' AND endDate <='"+ new java.sql.Date(date2.getTime())+"';";
+			System.out.println(searchFestivalQuery);
 			pstatement = conn.prepareStatement(searchFestivalQuery);
 			rs = pstatement.executeQuery();
 			while(rs.next()) {
@@ -238,10 +239,10 @@ public class DatabaseConnection {
 		DatabaseConnection connect = new DatabaseConnection();
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2016);
-		cal.set(Calendar.MONTH, Calendar.JULY);
-		cal.set(Calendar.DAY_OF_MONTH, 28);
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 26);
 		Date date1 = cal.getTime();
-		cal.set(Calendar.MONTH, Calendar.AUGUST);
+		cal.set(Calendar.MONTH, Calendar.DECEMBER);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		Date date2 = cal.getTime();
 		java.sql.Date dat = new java.sql.Date(date2.getTime());

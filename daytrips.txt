@@ -1,3 +1,8 @@
 length      name        type             startDate   endDate     location        price     
 ----------  ----------  ---------------  ----------  ----------  --------------  ----------
 3           Thjodhatid  Outside concert  2016-07-28  2016-08-01  Vestmannaeyjar  19500     
+7           Besta inni  Heimaparty       2016-07-28  2016-08-01  Aratun 40       1         
+5           Iceland Ai  Music festival   2016-11-02  2016-11-06  Reykjavik       19900     
+id          name           price       length      type         location    rating      startDate   endDate     travelAgency  size        extraInfo        
+----------  -------------  ----------  ----------  -----------  ----------  ----------  ----------  ----------  ------------  ----------  -----------------
+1           Golden Circle  10500       1           Sightseeing  Sudur       4           2016-01-01  2016-12-31  1                         bus fare included
