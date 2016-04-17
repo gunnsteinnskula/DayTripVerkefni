@@ -1,5 +1,8 @@
 package klasar;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,19 +17,29 @@ public class SearchController {
     String print;
     Date date1;
     Date date2;
+    DateFormat formatter;
 
     public SearchController() {
     	connection = new DatabaseConnection();
     	print = "";
     	date1 = null;
     	date2 = null;
+    	formatter = new SimpleDateFormat("yyyy-MM-dd");
     }
 
-    public List<DayTrip> search(Date date1, Date date2, String name, String type,
+    public List<DayTrip> search(String startdate1, String enddate2, String name, String type,
                        int size, int price, int length, String location) {
-
-    	this.date1 = date1;
-    	this.date2 = date2;
+   	
+    	try {
+    		this.date1 = formatter.parse(startdate1);
+			this.date2 = formatter.parse(enddate2);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	System.out.println(startdate1);
+    	
+    	System.out.println(date1);
+    	System.out.println(date2);
         List<DayTrip> daytrips = connection.search(date1, date2, name, type, size, price,
                 length, location);
 
@@ -34,6 +47,7 @@ public class SearchController {
 
         if(daytrips.size() == 0){
             System.out.println("Því miður fundust engar ferðir.");
+            allFestivals(festivals);
         }
 
         if(daytrips.size() == 1){
@@ -58,8 +72,8 @@ public class SearchController {
         int getLength = daytrip.getLength();
         String getType = daytrip.getType();
         String getLocation = daytrip.getLocation();
-        Date startDate = daytrip.getStartDate();
-        Date endDate = daytrip.getEndDate();
+        String startDate = daytrip.getStartDate();
+        String endDate = daytrip.getEndDate();
         int getSize = daytrip.getSize();
 
         List<Trip> trips = connection.getTrips(daytrip);
@@ -97,8 +111,8 @@ public class SearchController {
             int getLength = daytrip.getLength();
             String getType = daytrip.getType();
             String getLocation = daytrip.getLocation();
-            Date startDate = daytrip.getStartDate();
-            Date endDate = daytrip.getEndDate();
+            String startDate = daytrip.getStartDate();
+            String endDate = daytrip.getEndDate();
             int getSize = daytrip.getSize();
 
             print += getName + " " + " frá " + startDate + " til " + endDate + " og kostar " + getPrice + "." + "\n";
@@ -129,18 +143,9 @@ public class SearchController {
 
     public static void main(String[] args) {
     	SearchController s = new SearchController();
-    	
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2016);
-		cal.set(Calendar.MONTH, Calendar.JULY);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date date1 = cal.getTime();
-		cal.set(Calendar.MONTH, Calendar.DECEMBER);
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		Date date2 = cal.getTime();
-		System.out.println(date1);
-		System.out.println(date2);
+    	String date1 = "2016-06-20";
+    	String date2 = "2016-09-01";
     	List<DayTrip> dt = s.search(date1,date2,"Golden Circle",null,0,0,0,null);
-    	System.out.println(dt.size());
+    	System.out.println(dt.get(0).getStartDate());
     }
 }

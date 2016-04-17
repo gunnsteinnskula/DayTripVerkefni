@@ -1,6 +1,8 @@
 package klasar;
 
 import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,6 +19,7 @@ public class DayTrip {
 	private List<Trip> trips;
 	private Date[] dates;
 	private int rateCounter;
+	DateFormat formatter;
 	
 	public DayTrip(String name, int length, String type, String agency,
 			int price, String location, int size, String extraInfo, 
@@ -29,6 +32,7 @@ public class DayTrip {
 		this.location = location;
 		this.size = size;
 		this.extraInfo = extraInfo;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
 		dates = new Date[2];
 		dates[0] = startDate;
@@ -88,12 +92,12 @@ public class DayTrip {
 		rating = a/(++rateCounter);
 	}
 	
-	public Date getStartDate() {
-		return dates[0];
+	public String getStartDate() {
+		return formatter.format(dates[0]);
 	}
 	
-	public Date getEndDate() {
-		return dates[1];
+	public String getEndDate() {
+		return formatter.format(dates[1]);
 	}
 	
 	public void addTrip(Trip newTrip) {

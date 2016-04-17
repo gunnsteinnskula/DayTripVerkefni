@@ -27,7 +27,7 @@ public class DatabaseConnection {
 	
 	public DatabaseConnection() {
 		currentDir = System.getProperty("user.dir");
-		formatter = new SimpleDateFormat("YYYY-MM-DD");
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
 	
 		try {
 			Class.forName("org.sqlite.JDBC");
