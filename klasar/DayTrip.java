@@ -21,6 +21,25 @@ public class DayTrip {
 	private int rateCounter;
 	DateFormat formatter;
 	
+	/**
+	 * DayTrip geymir allar upplýsingar um sérstaka dagsferð.
+	 * startDate og endDate spanna það tímabil sem ferðin er í gangi.
+	 * Ekki er endilega farið í ferðir á öllum dögum þessa tímabils en það er tekið frekar fram í Trip.
+	 * 
+	 * rating er einkunn ferðarinnar frá 0 upp í 5
+	 * ratecount heldur utan  um hversu margir hafa gefið ferðinni einkunn
+	 * 
+	 * @param name er nafn ferðarinnar
+	 * @param length er hversu marga daga ferðin er
+	 * @param type er hvaða tegund af ferð þetta er, t.d. sightseeing eða hiking
+	 * @param agency er nafn ferðaskrifstofunnar sem rekur þessa ferð
+	 * @param price er verð á mann í ferðina í íslenskum krónum
+	 * @param location er landhluti sem þessi ferð er á
+	 * @param size er hversu margir komast í ferðina
+	 * @param extraInfo er aukaupplýsingar um ferðina
+	 * @param startDate er hvenær árs byrjað er að fara í þessa ferð
+	 * @param endDate er hvenær árs hætt er að fara í þessa ferð
+	 */
 	public DayTrip(String name, int length, String type, String agency,
 			int price, String location, int size, String extraInfo, 
 			Date startDate, Date endDate) {
@@ -43,63 +62,127 @@ public class DayTrip {
 		rating = 0;
 	}
 	
+	/**
+	 * @deprecated
+	 * for debugging purposes
+	 * @param name
+	 * @return
+	 */
 	public static String getTripByName(String name) {
 		return "A daytrip.";
 	}
 	
+	/**
+	 * 
+	 * @return lengd ferðar
+	 */
 	public int getLength() {
 		return length;
 	}
 	
+	/**
+	 * 
+	 * @return tegund ferðarinnar
+	 */
 	public String getType() {
 		return type;
 	}
 	
+	/**
+	 * 
+	 * @return verð ferðarinnar
+	 */
 	public int getPrice() {
 		return price;
 	}
 	
+	/**
+	 * 
+	 * @return landhluti ferðar
+	 */
 	public String getLocation() {
 		return location;
 	}
 	
+	/**
+	 * 
+	 * @return stærð ferðar
+	 */
 	public int getSize() {
 		return size;
 	}
 	
+	/**
+	 * 
+	 * @return einkunn ferðarinnar á bilinu 0 upp í 5
+	 */
 	public double getRating() {
 		return rating;
 	}
 	
+	/**
+	 * 
+	 * @return nafn ferðarinnar
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * 
+	 * @return aukaupplýsingar um ferðina
+	 */
 	public String getExtraInfo() {
 		return extraInfo;
 	}
 	
+	/**
+	 * 
+	 * @return nafn ferðaskrifstofunnar sem heldur utan um þessa ferð
+	 */
 	public String getTravelAgency() {
 		return agency;
 	}
 	
+	/**
+	 * @deprecated
+	 * Beil
+	 * @return 0
+	 */
 	public int getTotalBookings() {
 		return 0;
 	}
 	
+	/**
+	 * reiknar út nýja einkunn fyrir þessa ferð og breytir
+	 * rating í samræmi við það
+	 * @param newRating einkunn sem var að berast
+	 */
 	public void rate(int newRating) {
 		double a = rating*rateCounter + newRating;
 		rating = a/(++rateCounter);
 	}
 	
+	/**
+	 * 
+	 * @return byrjunardagsetning á strengjaforminu 'yyyy-mm-dd'
+	 */
 	public String getStartDate() {
 		return formatter.format(dates[0]);
 	}
 	
+	/**
+	 * 
+	 * @return lokadagsetningin á strengjaforminu 'yyyy-mm-dd'
+	 */
 	public String getEndDate() {
 		return formatter.format(dates[1]);
 	}
 	
+	/**
+	 * Bætir inn trip fyrir þessa Daytrip í trips listann
+	 * @param newTrip er ferðin sem á að bæta við
+	 */
 	public void addTrip(Trip newTrip) {
 		trips.add(newTrip);
 	}
