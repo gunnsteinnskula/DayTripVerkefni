@@ -18,6 +18,7 @@ public class DatabaseConnection {
 	private String searchTripQuery;
 	private String searchFestivalQuery;
 	private String getTripsQuery;
+	private String findNumberOfBookings;
 	private PreparedStatement pstatement;
 	private Connection conn;
 	private ResultSet rs; 
@@ -25,6 +26,10 @@ public class DatabaseConnection {
 	private String currentDir;
 	DateFormat formatter;
 	
+	/**
+	 * Smiður: Gagnagrunnur fundinn. Á að vera í sömu möppu og verkefnið.
+	 * Allar dagsetningar á strengjaformi eru á forminu "yyyy-MM-dd".
+	 */
 	public DatabaseConnection() {
 		currentDir = System.getProperty("user.dir");
 		formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -39,7 +44,16 @@ public class DatabaseConnection {
 		}	
 	}
 	
+	/**
+	 * Bókun er færð í gagnagrunninn
+	 * @param tripID er id á ferðinni sem á að bóka í 
+	 * @param touristEmail er email þess sem bókar
+	 * @param bookingnumber er sér númer sem á við um þessa bókun
+	 * @param groupSize er stærð hópsins sem verið er að bóka fyrir
+	 * @return true ef náðist að bóka ferðina, annars false
+	 */
 	public boolean book(int tripID, String touristEmail, int bookingnumber, int groupSize) {
+		int bookings = 0;
 		try {
 			addBookingQuery = "INSERT INTO bookings values(?,?,?)";
 			pstatement = conn.prepareStatement(addBookingQuery);
@@ -47,6 +61,16 @@ public class DatabaseConnection {
 			pstatement.setInt(2, tripID);
 			pstatement.setInt(3, bookingnumber);
 			pstatement.executeUpdate();
+			findNumberOfBookings = "SELECT bookings FROM trips WHERE id='"+tripID+"'";
+			pstatement = conn.prepareStatement(findNumberOfBookings);
+			rs = pstatement.executeQuery();
+			while(rs.next()) {
+				bookings = rs.getInt("bookings");
+				bookings = bookings + groupSize;
+			}
+			String changeBookings = "UPDATE trips SET bookings="+bookings+" WHERE id="+tripID;
+			pstatement = conn.prepareStatement(changeBookings);
+			rs = pstatement.executeQuery();
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -55,6 +79,11 @@ public class DatabaseConnection {
 		
 	}
 	
+	/**
+	 * Finnur túrista í gagnagrunninum út frá netfangi
+	 * @param email er netfangið sem leitað er að í gagnagrunninum
+	 * @return true ef túristinn er nú þegar í gagnagrunninum, annars false
+	 */
 	public boolean findTourist(String email) {
 		Boolean found = false;
 		try {
@@ -74,6 +103,14 @@ public class DatabaseConnection {
 		return found;
 	}
 	
+	/**
+	 * Bætir túrista við í gagnagrunninn
+	 * @param name er nafn þess sem bókar
+	 * @param email er netfang þess sem bókar
+	 * @param country er land þess sem bókar
+	 * @param age er aldur þess sem bókar
+	 * @return true ef það tókst að bæta túrista við í gagnagrunninn, annars false
+	 */
 	public boolean addTourist(String name, String email, String country, int age) {
 		try {
 			addTouristQuery = "INSERT INTO tourists values(?,?,?,?)";
@@ -90,6 +127,12 @@ public class DatabaseConnection {
 		}
 	}
 	
+	/**
+	 * Finnur ferð í gagnagrunninum sem hefur ákveðna byrjunardagsetningu
+	 * @param daytrip er nafn ferðarinnar
+	 * @param tripDates er byrjunardagsetning ferðarinnar
+	 * @return skilar id úr gagnagrunninum fyrir ferðina
+	 */
 	public int getTripID(String daytrip, Date tripDates) {
 		int id = 0;
 		try {
@@ -109,7 +152,12 @@ public class DatabaseConnection {
 		}
 		return id;
 	}
-
+	
+	/**
+	 * Finnur öll stök af trip fyrir ákveðið daytrip
+	 * @param daytrip er ferðin sem verið er að skoða
+	 * @return skilar lista af öllum trip sem fundust
+	 */
 	public List<Trip> getTrips(DayTrip daytrip) {
 		int id = 0;
 		List<Trip> trips = new ArrayList<Trip>();
@@ -136,7 +184,12 @@ public class DatabaseConnection {
 		}
 		return trips;
 	}
-
+	/**
+	 * Nær í túrista og upplýsingar um hann úr gagnagrunninum og býr til 
+	 * nýtt stak af Tourist
+	 * @param email er netfang sem leitað er eftir 
+	 * @return skilar stakinu Tourist
+	 */
 	public Tourist getTourist(String email) {
 		String name = null;
 		String email1 = null;
@@ -162,7 +215,23 @@ public class DatabaseConnection {
 			return null;
 		}
 	}
-
+	/**
+	 * Leitar að ferð í gagnagrunninum út frá tilteknum leitarskilyrðum og býr
+	 * til lista af öllum ferðum sem fundust. Ef String eða Date innihalda
+	 * NULL og int 0 þá er það túlkað sem svo að engin leitarskilyrði hafi
+	 * verið sett á þann parameter.
+	 * @param date1 er fyrri dagsetningin sem túristinn setur inn
+	 * @param date2 er seinni dagsetningin sem túristinn setur inn
+	 * @param name er nafn ferðarinnar
+	 * @param type er tegund ferðarinnar
+	 * @param size er stærð hópsins sem bókað er fyrir. Einungis ferðir sem henta þeim
+	 * fjölda koma upp
+	 * @param price er verðbil sem túristi velur og leitar eftir
+	 * @param length er lengd ferðarinnar í dögum
+	 * @param location er landshluti sem leitað er á
+	 * @return lista af ferðum sem í boði eru. Ferðin verður að vera í boði
+	 * fyrir date1 og eftir date2
+	 */
 	public List<DayTrip> search(Date date1, Date date2, String name, String type, int size, int price, int length, String location) {
 		searchTripQuery = "SELECT * FROM dayTrips";
 		if(date1 != null || date2 != null || name != null || type != null || size != 0 || price != 0 || length != 0 || location != null) {
@@ -206,7 +275,13 @@ public class DatabaseConnection {
 		}
 		return daytrips;
 	}
-
+	/**
+	 * Leitar að hátíðum í gagnagrunninum sem eru í gangi á tilteknum tíma.
+	 * @param date1 er fyrri dagsetningin sem túristinn setur inn
+	 * @param date2 er seinni dagsetningin sem túristinn setur inn
+	 * @return lista af hátíðum sem eru í gangi. Hátíðin þarf að vera
+	 * einhversstaðar á því bili dagsetninga sem hefur verið valið
+	 */
 	public List<Festival> searchFestival(Date date1, Date date2) {
 		List<Festival> festivals = new ArrayList<Festival>();
 		try {
@@ -251,5 +326,7 @@ public class DatabaseConnection {
 		System.out.println(found.get(0).getName());
 		List<DayTrip> founddt = connect.search(null, null, "Geysir", null, 0, 0, 0, null);
 		System.out.println(founddt.get(0).getTravelAgency());
+		connect.addTourist("Heiðrún Björk", "heidrunbh@gmail.com", "Iceland", 20);
+		System.out.println(connect.book(0, "heidrunbh@gmail.com", 0, 10));
 	}
 }
