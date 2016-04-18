@@ -70,7 +70,7 @@ public class DatabaseConnection {
 			}
 			String changeBookings = "UPDATE trips SET bookings="+bookings+" WHERE id="+tripID;
 			pstatement = conn.prepareStatement(changeBookings);
-			rs = pstatement.executeQuery();
+			pstatement.executeUpdate();
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -327,6 +327,6 @@ public class DatabaseConnection {
 		List<DayTrip> founddt = connect.search(null, null, "Geysir", null, 0, 0, 0, null);
 		System.out.println(founddt.get(0).getTravelAgency());
 		connect.addTourist("Heiðrún Björk", "heidrunbh@gmail.com", "Iceland", 20);
-		System.out.println(connect.book(0, "heidrunbh@gmail.com", 0, 10));
+		System.out.println(connect.book(1, "heidrunbh@gmail.com", 0, 10));
 	}
 }
